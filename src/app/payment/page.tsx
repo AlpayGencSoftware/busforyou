@@ -8,21 +8,11 @@ import { clearBooking, savePurchasedSeats } from '@/store/slices/bookingSlice';
 import { addTicket } from '@/store/slices/ticketsSlice';
 import trips from '@/mocks/trips.json';
 import { v4 as uuidv4 } from "uuid";
+import { useTranslation } from '@/hooks/useTranslation';
+import { Button } from '@/components/ui/Button';
+import { Home, CreditCard } from 'lucide-react';
 
-const PaymentSchema = Yup.object({
-  cardNumber: Yup.string()
-    .matches(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/, "Geçerli kart numarası giriniz")
-    .required("Kart numarası zorunludur"),
-  expiry: Yup.string()
-    .matches(/^(0[1-9]|1[0-2])\/\d{2}$/, "AA/YY formatında giriniz")
-    .required("Son kullanma tarihi zorunludur"),
-  cvv: Yup.string()
-    .matches(/^\d{3,4}$/, "3-4 haneli CVV giriniz")
-    .required("CVV zorunludur"),
-  cardHolder: Yup.string()
-    .min(2, "En az 2 karakter olmalıdır")
-    .required("Kart sahibi adı zorunludur"),
-});
+// Payment schema moved inside component to access translations
 
 export default function PaymentPage() {
   return (
@@ -33,11 +23,27 @@ export default function PaymentPage() {
 }
 
 function PaymentInner() {
+  const { t } = useTranslation();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [success, setSuccess] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   
+  // Payment schema with translations
+  const PaymentSchema = Yup.object({
+    cardNumber: Yup.string()
+      .matches(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/, t('validation.invalidCard'))
+      .required(t('validation.required')),
+    expiry: Yup.string()
+      .matches(/^(0[1-9]|1[0-2])\/\d{2}$/, t('validation.invalidExpiry'))
+      .required(t('validation.required')),
+    cvv: Yup.string()
+      .matches(/^\d{3,4}$/, t('validation.invalidCvv'))
+      .required(t('validation.required')),
+    cardHolder: Yup.string()
+      .min(2, t('validation.minLength').replace('{min}', '2'))
+      .required(t('validation.required')),
+  });
 
   const { selectedSeatIds, totalPrice, selectedTripId } = useAppSelector(state => state.booking);
   const currentUser = useAppSelector(state => state.auth.currentUser);
@@ -210,12 +216,15 @@ function PaymentInner() {
               <span className="text-lg font-bold text-green-600">{paymentDetails ? paymentDetails.totalPrice : 0} ₺</span>
             </div>
           </div>
-          <button 
+          <Button
             onClick={() => router.push("/")}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3 font-medium transition-colors"
+            variant="primary"
+            size="md"
+            icon={Home}
+            fullWidth
           >
             Ana Sayfaya Dön
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -239,7 +248,7 @@ function PaymentInner() {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 pt-32" style={{ background: "var(--bg-gradient)" }}>
+    <div className="min-h-screen py-8 px-4 pt-40" style={{ background: "var(--bg-gradient)" }}>
       <div className="max-w-2xl mx-auto">
 
         <div className="bg-white rounded-2xl shadow-sm border p-6 mb-6">
@@ -250,8 +259,8 @@ function PaymentInner() {
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Ödeme</h1>
-              <p className="text-gray-600">Güvenli ödeme işlemi</p>
+              <h1 className="text-2xl font-bold text-gray-900">{t('payment.title')}</h1>
+              <p className="text-gray-600">{t('payment.subtitle')}</p>
             </div>
           </div>
 
@@ -487,15 +496,15 @@ function PaymentInner() {
                 </div>
 
 
-                <button
+                <Button
                   type="submit"
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-4 font-semibold transition-colors flex items-center justify-center gap-2 shadow-sm"
+                  variant="primary"
+                  size="lg"
+                  icon={CreditCard}
+                  fullWidth
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v2a2 2 0 002 2z" />
-                  </svg>
                   {totalPrice > 0 ? totalPrice : 1920} ₺ Öde
-                </button>
+                </Button>
               </Form>
             )}
           </Formik>

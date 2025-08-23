@@ -7,14 +7,11 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { setSearchCriteria } from "@/store/slices/searchSlice";
 import { CalendarDays, Search, MapPin } from "lucide-react";
 import { FormikSelect } from "@/components/ui/Select";
-
-const SearchSchema = Yup.object({
-  fromCity: Yup.string().required("Kalkış şehri seçiniz"),
-  toCity: Yup.string().required("Varış şehri seçiniz"),
-  date: Yup.string().required("Seyahat tarihi seçiniz"),
-});
+import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function SearchBar() {
+  const { t } = useTranslation();
   const router = useRouter();
   const dispatch = useAppDispatch();
   const today = new Date().toISOString().slice(0, 10);
@@ -22,6 +19,13 @@ export function SearchBar() {
   // Redux'tan önceki arama kriterlerini al
   const searchCriteria = useAppSelector((state) => state.search);
   
+  // Validation schema
+  const SearchSchema = Yup.object({
+    fromCity: Yup.string().required(t("search.selectDepartureCityError")),
+    toCity: Yup.string().required(t("search.selectArrivalCityError")),
+    date: Yup.string().required(t("search.selectDateError")),
+  });
+
   // Initial values - Redux'ta değer varsa kullan, yoksa default
   const initialValues = {
     fromCity: searchCriteria.fromCity || "",
@@ -30,7 +34,7 @@ export function SearchBar() {
   };
 
   return (
-       <div className="w-full mt-8 mb-8 md:mt-12 bg-white/90 backdrop-blur border rounded-2xl md:rounded-3xl p-1 md:p-4 shadow-[0_6px_20px_rgba(0,0,0,0.06)] overflow-visible">
+       <div className="w-full mt-6 mb-6 sm:mt-8 sm:mb-8 md:mt-12 bg-white/90 backdrop-blur border rounded-2xl md:rounded-3xl p-3 sm:p-4 md:p-8 shadow-[0_6px_20px_rgba(0,0,0,0.06)] overflow-visible">
       <Formik
         initialValues={initialValues}
         enableReinitialize={true}
@@ -51,17 +55,17 @@ export function SearchBar() {
           const availableDestinations = cities.filter(city => city !== values.fromCity);
           
           return (
-          <Form className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full">
+          <Form className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 w-full">
             {/* Origin */}
-            <div className="space-y-1">
-              <label className="text-xs text-gray-700">Nereden</label>
+            <div className="space-y-1 sm:space-y-2 md:space-y-3">
+              <label className="text-xs sm:text-sm md:text-base font-medium text-gray-700">{t('search.from')}</label>
               <div className="relative">
                 <FormikSelect 
                   name="fromCity" 
                   options={cities} 
-                  placeholder="Kalkış şehri seçin"
-                  className="w-full rounded-2xl bg-white border border-gray-300 px-4 py-3 pl-10 text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  leftIcon={<MapPin className="w-4 h-4" />}
+                  placeholder={t('search.selectDepartureCity')}
+                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 pl-9 sm:pl-10 md:pl-12 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-search-button-color focus:border-transparent text-left"
+                  leftIcon={<MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />}
                 />
               </div>
               {errors.fromCity && touched.fromCity && !values.fromCity && (
@@ -70,15 +74,15 @@ export function SearchBar() {
             </div>
 
             {/* Destination */}
-            <div className="space-y-1">
-              <label className="text-xs text-gray-700">Nereye</label>
+            <div className="space-y-1 sm:space-y-2 md:space-y-3">
+              <label className="text-xs sm:text-sm md:text-base font-medium text-gray-700">{t('search.to')}</label>
               <div className="relative">
                 <FormikSelect 
                   name="toCity" 
                   options={availableDestinations} 
-                  placeholder="Varış şehri seçin"
-                  className="w-full rounded-2xl bg-white border border-gray-300 px-4 py-3 pl-10 text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  leftIcon={<MapPin className="w-4 h-4" />}
+                  placeholder={t('search.selectArrivalCity')}
+                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 pl-9 sm:pl-10 md:pl-12 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-search-button-color focus:border-transparent text-left"
+                  leftIcon={<MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />}
                 />
               </div>
               {errors.toCity && touched.toCity && !values.toCity && (
@@ -87,15 +91,15 @@ export function SearchBar() {
             </div>
 
             {/* Date */}
-            <div className="space-y-1">
-              <label className="text-xs text-gray-700">Tarih</label>
+            <div className="space-y-1 sm:space-y-2 md:space-y-3">
+              <label className="text-xs sm:text-sm md:text-base font-medium text-gray-700">{t('search.date')}</label>
               <div className="relative">
-                <CalendarDays className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                <CalendarDays className="absolute left-2.5 sm:left-3 md:left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-gray-500" />
                 <Field 
                   type="date" 
                   name="date" 
                   min={today} 
-                  className="w-full rounded-2xl bg-white border border-gray-300 px-4 py-3 pl-10 text-sm placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 pl-9 sm:pl-10 md:pl-12 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   style={{ colorScheme: 'light' }}
                 />
               </div>
@@ -105,14 +109,17 @@ export function SearchBar() {
             </div>
 
             {/* Search Button */}
-            <div className="flex items-end">
-              <button 
-                type="submit" 
-                className="w-full search-button-color text-search-button-color-text rounded-2xl px-6 py-3 text-sm font-medium flex items-center justify-center gap-2 transition-all duration-300"
+            <div className="flex items-end sm:col-span-2 lg:col-span-1">
+              <Button
+                type="submit"
+                variant="primary"
+                size="md"
+                icon={Search}
+                fullWidth
+                mobileText="Ara"
               >
-                <Search className="w-4 h-4 search-icon" />
-                Sefer Ara
-              </button>
+                {t('search.searchTrips')}
+              </Button>
             </div>
           </Form>
           );

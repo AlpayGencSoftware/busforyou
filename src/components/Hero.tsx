@@ -1,19 +1,25 @@
 "use client";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type HeroProps = {
-  title: string;
+  title?: string;
   subtitle?: string;
   illustrationSrc?: string;
   children?: React.ReactNode;
 };
 
 export function Hero({ title, subtitle, illustrationSrc = "/bg.jpg", children }: HeroProps) {
+  const { t } = useTranslation();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const childrenRef = useRef<HTMLDivElement>(null);
   const busImageRef = useRef<HTMLImageElement>(null);
+  
+  // Use translation if no title/subtitle provided
+  const displayTitle = title || t('home.title');
+  const displaySubtitle = subtitle || t('home.subtitle');
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -70,31 +76,31 @@ export function Hero({ title, subtitle, illustrationSrc = "/bg.jpg", children }:
   }, []);
   return (
     <section 
-              className="w-full min-h-[48rem] bg-cover bg-center bg-no-repeat relative"
+      className="w-full min-h-[calc(100vh-6rem)] bg-cover bg-center bg-no-repeat relative"
       style={{ backgroundImage: `url(${illustrationSrc})` }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/5"></div>
       
       {/* Content */}
-      <div className="container px-4 pt-32 pb-10 md:pt-40 md:pb-16 relative z-10">
+      <div className="container px-4 pt-32 pb-6 sm:pt-40 sm:pb-10 md:pt-48 md:pb-16 relative z-10">
         <div className="grid md:grid-cols-2 items-center gap-8 mb-8 min-h-[13.75rem]">
           <div>
             <h1 
               ref={titleRef}
-              className="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-4 text-shine"
-              style={{ fontSize: 'clamp(2.8rem, 1.5vw, 3rem)' }}
+                          className="text-4xl md:text-5xl lg:text-7xl font-extrabold tracking-tight mb-4 text-shine"
+            style={{ fontSize: 'clamp(2.8rem, 1.5vw, 3rem)' }}
+          >
+            {displayTitle}
+          </h1>
+          {(displaySubtitle || subtitle) && (
+            <p 
+              ref={subtitleRef}
+              className="text-lg md:text-xl bg-gradient-to-r from-black/95 via-black-800 to-black-900 bg-clip-text drop-shadow-md leading-relaxed"
             >
-              {title}
-            </h1>
-            {subtitle && (
-              <p 
-                ref={subtitleRef}
-                className="text-lg md:text-xl bg-gradient-to-r from-black/95 via-black-800 to-black-900 bg-clip-text drop-shadow-md leading-relaxed"
-              >
-                {subtitle}
-              </p>
-            )}
+              {displaySubtitle}
+            </p>
+          )}
           </div>
           <div className="hidden md:flex items-start justify-center pt-8">
             <div className="relative">
@@ -109,7 +115,7 @@ export function Hero({ title, subtitle, illustrationSrc = "/bg.jpg", children }:
             </div>
           </div>
         </div>
-        <div ref={childrenRef}>
+        <div ref={childrenRef} className="max-w-6xl mx-auto">
           {children}
         </div>
       </div>

@@ -5,8 +5,12 @@ import { startBooking } from "@/store/slices/bookingSlice";
 import { useEffect, useMemo, useState } from "react";
 import allTrips from "@/mocks/trips.json";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "@/hooks/useTranslation";
+import { Button } from "@/components/ui/Button";
+import { ArrowLeft, Check, X } from "lucide-react";
 
 export default function InquiryPage() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const criteria = useAppSelector((s) => s.search);
@@ -102,19 +106,19 @@ export default function InquiryPage() {
   };
 
   return (
-    <div className="min-h-screen pt-32" style={{ background: "var(--bg-gradient)" }}>
+    <div className="min-h-screen pt-40" style={{ background: "var(--bg-gradient)" }}>
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-sm border p-6 mb-6">
-          <div className="flex items-center gap-3 mb-4">
+          <div className="flex items-center gap-1 mb-4">
             <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
               <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">Uygun Seferler</h1>
-              <p className="text-gray-600 text-sm">Size en uygun otobüs seferlerini bulduk</p>
+              <h1 className="text-2xl font-bold text-gray-900">{t('inquiry.title')}</h1>
+              <p className="text-gray-600 text-sm">{t('inquiry.subtitle')}</p>
             </div>
           </div>
           
@@ -159,23 +163,22 @@ export default function InquiryPage() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Uygun Sefer Bulunamadı</h3>
-            <p className="text-gray-600 mb-6">Seçtiğiniz kriterlere uygun sefer bulunmamaktadır. Lütfen farklı tarih veya güzergah deneyin.</p>
-            <button 
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">{t('inquiry.noTripsFound')}</h3>
+            <p className="text-gray-600 mb-6">{t('inquiry.noTripsMessage')}</p>
+            <Button
               onClick={() => router.push('/')}
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+              variant="primary"
+              size="md"
+              icon={ArrowLeft}
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Yeni Arama Yap
-            </button>
+              {t('inquiry.backToSearch')}
+            </Button>
           </div>
         ) : (
           <div className="space-y-4">
             <div className="flex items-center justify-between mb-4">
               <p className="text-gray-600">
-                <span className="font-semibold text-gray-900">{trips.length}</span> sefer bulundu
+                <span className="font-semibold text-gray-900">{trips.length}</span> {t('inquiry.tripsFound')}
               </p>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -203,7 +206,7 @@ export default function InquiryPage() {
                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
-                          Kalkışa {timeUntilDeparture} kaldı
+                          {t('inquiry.departureIn')} {timeUntilDeparture}
                         </div>
                       </div>
                     )}
@@ -220,10 +223,11 @@ export default function InquiryPage() {
                       </div>
                     )}
                     
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
                       {/* Sol Taraf - Sefer Bilgileri */}
                       <div className="flex-1">
-                        <div className="flex items-center gap-4 mb-4">
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+                          {/* Kalkış */}
                           <div className="flex items-center gap-3">
                             <div className={`w-3 h-3 rounded-full ${isExpired ? 'bg-gray-400' : 'bg-green-500'}`}></div>
                             <div>
@@ -236,25 +240,27 @@ export default function InquiryPage() {
                             </div>
                           </div>
                         
-                        <div className="flex-1 flex items-center justify-center">
-                          <div className="flex items-center gap-2 text-gray-400">
-                            <div className="h-px bg-gray-300 flex-1"></div>
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                            </svg>
-                            <div className="h-px bg-gray-300 flex-1"></div>
+                          {/* Süre - Mobilde dikey, desktop'ta yatay */}
+                          <div className="flex-1 flex items-center justify-center sm:justify-center">
+                            <div className="flex flex-col sm:flex-row items-center gap-2 text-gray-400">
+                              <div className="hidden sm:block h-px bg-gray-300 flex-1"></div>
+                              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                              </svg>
+                              <div className="hidden sm:block h-px bg-gray-300 flex-1"></div>
+                            </div>
+                            <div className="text-xs text-gray-500 mx-2 sm:mx-4 bg-gray-50 px-2 py-1 rounded-full">
+                              {getTravelDuration(trip.departureTime, trip.arrivalTime)}
+                            </div>
                           </div>
-                          <div className="text-xs text-gray-500 mx-4 bg-gray-50 px-2 py-1 rounded-full">
-                            {getTravelDuration(trip.departureTime, trip.arrivalTime)}
-                          </div>
-                        </div>
                         
+                          {/* Varış */}
                           <div className="flex items-center gap-3">
-                            <div>
-                              <div className={`font-semibold text-lg text-right ${isExpired ? 'text-gray-500' : 'text-gray-900'}`}>
+                            <div className="sm:text-right">
+                              <div className={`font-semibold text-lg ${isExpired ? 'text-gray-500' : 'text-gray-900'}`}>
                                 {trip.arrivalTime}
                               </div>
-                              <div className={`text-sm text-right ${isExpired ? 'text-gray-400' : 'text-gray-600'}`}>
+                              <div className={`text-sm ${isExpired ? 'text-gray-400' : 'text-gray-600'}`}>
                                 {trip.toCity}
                               </div>
                             </div>
@@ -263,50 +269,50 @@ export default function InquiryPage() {
                         </div>
                         
                         {/* Alt Bilgiler */}
-                        <div className={`flex items-center gap-6 text-sm ${isExpired ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <div className={`flex flex-wrap items-center gap-3 sm:gap-6 text-sm ${isExpired ? 'text-gray-400' : 'text-gray-600'}`}>
                           <div className="flex items-center gap-2">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" />
                             </svg>
-                            <span>Klimalı</span>
+                            <span>{t('inquiry.heating')}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
                             </svg>
-                            <span>WiFi</span>
+                            <span>{t('inquiry.wifi')}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                             </svg>
-                            <span>{getAvailableSeats(trip)} boş koltuk</span>
+                            <span>{getAvailableSeats(trip)} {t('inquiry.availableSeats')}</span>
                           </div>
                         </div>
                       </div>
                       
                       {/* Sağ Taraf - Fiyat ve Buton */}
-                      <div className="flex flex-col items-end gap-4 ml-8">
-                        <div className="text-right">
+                      <div className="flex flex-col lg:items-end items-center gap-4 lg:ml-8 border-t lg:border-t-0 pt-4 lg:pt-0">
+                        <div className="text-center lg:text-right">
                           <div className={`text-2xl font-bold ${isExpired ? 'text-gray-500' : 'text-gray-900'}`}>
                             ₺{trip.price}
                           </div>
                           <div className={`text-sm ${isExpired ? 'text-gray-400' : 'text-gray-600'}`}>
-                            kişi başı
+                            {t('common.perPerson')}
                           </div>
                         </div>
                         
-                        <button
-                          className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-colors ${
-                            isExpired 
-                              ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-                              : 'bg-blue-600 text-white hover:bg-blue-700'
-                          }`}
+                        <Button
+                          variant={isExpired ? "secondary" : "primary"}
+                          size="md"
+                          icon={isExpired ? X : Check}
+                          fullWidth={false}
+                          className="w-full lg:w-auto"
                           onClick={() => {
                             if (isExpired) return;
                             
-                                              // Booking state'ini başlat (sefer seçildiğinde)
-                  dispatch(startBooking({ tripId: trip.id, basePrice: trip.price, userTickets }));
+                            // Booking state'ini başlat (sefer seçildiğinde)
+                            dispatch(startBooking({ tripId: trip.id, basePrice: trip.price, userTickets }));
                             
                             // Giriş kontrolü - giriş yapmamışsa login sayfasına yönlendir
                             if (!currentUser) {
@@ -320,22 +326,8 @@ export default function InquiryPage() {
                           }}
                           disabled={isExpired}
                         >
-                          {isExpired ? (
-                            <>
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                              </svg>
-                              Sefer Geçti
-                            </>
-                          ) : (
-                            <>
-                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                              </svg>
-                              Koltuk Seç
-                            </>
-                          )}
-                        </button>
+                          {isExpired ? "Sefer Geçti" : t('inquiry.selectSeats')}
+                        </Button>
                       </div>
                     </div>
                   </div>

@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { useTranslation } from '@/hooks/useTranslation';
+import { Button } from '@/components/ui/Button';
+import { ShoppingCart, Download, X } from 'lucide-react';
 
 
 const mockTicketsTemplate = [
@@ -77,6 +80,7 @@ const mockTicketsTemplate = [
 ];
 
 export default function TicketsPage() {
+  const { t } = useTranslation();
   const router = useRouter();
   const currentUser = useAppSelector((state) => state.auth.currentUser);
   const [selectedTicket, setSelectedTicket] = useState<string | null>(null);
@@ -329,22 +333,22 @@ export default function TicketsPage() {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 pt-32" style={{ background: "var(--bg-gradient)" }}>
+      <div className="min-h-screen flex items-center justify-center p-4 pt-40" style={{ background: "var(--bg-gradient)" }}>
         <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
           <div className="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Giriş Gerekli</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('tickets.loginRequired')}</h2>
           <p className="text-gray-600 mb-6">
-            Biletlerinizi görmek için giriş yapmanız gerekiyor.
+            {t('tickets.loginRequiredMessage')}
           </p>
           <button 
             onClick={() => router.push('/login')}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3 font-medium transition-colors"
           >
-            Giriş Yap
+            {t('tickets.loginButton')}
           </button>
         </div>
       </div>
@@ -384,7 +388,7 @@ export default function TicketsPage() {
     switch (status) {
       case 'active':
         return {
-          text: 'Aktif',
+          text: t('tickets.status.active'),
           color: 'text-green-700',
           bg: 'bg-green-100',
           icon: (
@@ -395,7 +399,7 @@ export default function TicketsPage() {
         };
       case 'used':
         return {
-          text: 'Kullanıldı',
+          text: t('tickets.status.used'),
           color: 'text-gray-700',
           bg: 'bg-gray-100',
           icon: (
@@ -406,7 +410,7 @@ export default function TicketsPage() {
         };
       case 'cancelled':
         return {
-          text: 'İptal',
+          text: t('tickets.status.cancelled'),
           color: 'text-red-700',
           bg: 'bg-red-100',
           icon: (
@@ -417,7 +421,7 @@ export default function TicketsPage() {
         };
       default:
         return {
-          text: 'Bilinmiyor',
+          text: t('tickets.status.unknown'),
           color: 'text-gray-700',
           bg: 'bg-gray-100',
           icon: null
@@ -426,11 +430,11 @@ export default function TicketsPage() {
   };
 
   return (
-    <div className="min-h-screen py-8 px-4 pt-32" style={{ background: "var(--bg-gradient)" }}>
+    <div className="min-h-screen py-8 px-4 pt-40" style={{ background: "var(--bg-gradient)" }}>
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-2xl shadow-sm border p-6 mb-6">
-          <div className="flex items-center justify-between">
+        <div className="bg-white rounded-2xl shadow-sm border p-4 sm:p-6 mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
                 <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -438,42 +442,42 @@ export default function TicketsPage() {
                 </svg>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">Biletlerim</h1>
-                <p className="text-gray-600">Satın aldığınız biletleri görüntüleyin</p>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900">{t('tickets.title')}</h1>
+                <p className="text-sm sm:text-base text-gray-600">{t('tickets.subtitle')}</p>
               </div>
             </div>
 
             {/* Filtre Butonları */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 overflow-x-auto sm:overflow-x-visible">
               <button
                 onClick={() => setFilter('all')}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   filter === 'all' 
                     ? 'bg-blue-600 text-white' 
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                Tümü ({tickets.length})
+                {t('tickets.filters.all')} ({tickets.length})
               </button>
               <button
                 onClick={() => setFilter('active')}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   filter === 'active' 
                     ? 'bg-green-600 text-white' 
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                Aktif ({tickets.filter(t => t.status === 'active').length})
+                {t('tickets.filters.active')} ({tickets.filter(t => t.status === 'active').length})
               </button>
               <button
                 onClick={() => setFilter('used')}
-                className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
                   filter === 'used' 
                     ? 'bg-gray-600 text-white' 
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                Kullanıldı ({tickets.filter(t => t.status === 'used').length})
+                {t('tickets.filters.used')} ({tickets.filter(t => t.status === 'used').length})
               </button>
             </div>
           </div>
@@ -488,14 +492,16 @@ export default function TicketsPage() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Bilet Bulunamadı</h3>
-              <p className="text-gray-600 mb-6">Seçilen filtreye uygun bilet bulunmuyor.</p>
-              <button 
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">{t('tickets.noTicketsFound')}</h3>
+              <p className="text-gray-600 mb-6">{t('tickets.noTicketsMessage')}</p>
+              <Button
                 onClick={() => router.push('/')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors"
+                variant="primary"
+                size="md"
+                icon={ShoppingCart}
               >
-                Bilet Satın Al
-              </button>
+                {t('tickets.buyTicket')}
+              </Button>
             </div>
           ) : (
             filteredTickets.map((ticket) => {
@@ -506,55 +512,55 @@ export default function TicketsPage() {
                 <div key={ticket.id} className="bg-white rounded-2xl shadow-sm border overflow-hidden">
                   {/* Bilet Header */}
                   <div 
-                    className="p-6 cursor-pointer hover:bg-gray-50 transition-colors"
+                    className="p-4 sm:p-6 cursor-pointer hover:bg-gray-50 transition-colors"
                     onClick={() => setSelectedTicket(isExpanded ? null : ticket.id)}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0 flex-1">
                         {/* Route */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-gray-900">{ticket.departureTime}</div>
-                            <div className="text-sm font-medium text-gray-700">{ticket.fromCity}</div>
+                            <div className="text-lg sm:text-2xl font-bold text-gray-900">{ticket.departureTime}</div>
+                            <div className="text-xs sm:text-sm font-medium text-gray-700 truncate">{ticket.fromCity}</div>
                           </div>
                           
-                          <div className="flex flex-col items-center gap-1">
-                            <div className="flex items-center gap-2">
-                              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                              <div className="h-px bg-gray-300 w-16"></div>
-                              <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div className="flex flex-col items-center gap-1 mx-2">
+                            <div className="flex items-center gap-1 sm:gap-2">
+                              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
+                              <div className="h-px bg-gray-300 w-8 sm:w-16"></div>
+                              <svg className="w-4 h-4 sm:w-6 sm:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
                               </svg>
-                              <div className="h-px bg-gray-300 w-16"></div>
-                              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                              <div className="h-px bg-gray-300 w-8 sm:w-16"></div>
+                              <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
                             </div>
-                            <div className="text-xs text-gray-500">{formatDate(ticket.date)}</div>
+                            <div className="text-xs text-gray-500 whitespace-nowrap">{formatDate(ticket.date)}</div>
                           </div>
                           
                           <div className="text-center">
-                            <div className="text-2xl font-bold text-gray-900">{ticket.arrivalTime}</div>
-                            <div className="text-sm font-medium text-gray-700">{ticket.toCity}</div>
+                            <div className="text-lg sm:text-2xl font-bold text-gray-900">{ticket.arrivalTime}</div>
+                            <div className="text-xs sm:text-sm font-medium text-gray-700 truncate">{ticket.toCity}</div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                         {/* Status */}
-                        <div className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium ${statusInfo.bg} ${statusInfo.color}`}>
+                        <div className={`flex items-center gap-2 px-3 py-2 rounded-full text-xs sm:text-sm font-medium ${statusInfo.bg} ${statusInfo.color}`}>
                           {statusInfo.icon}
-                          {statusInfo.text}
+                          <span className="whitespace-nowrap">{statusInfo.text}</span>
                         </div>
 
                         {/* Price & Seats */}
-                        <div className="text-right">
-                          <div className="text-xl font-bold text-gray-900">{ticket.totalPrice} ₺</div>
-                          <div className="text-sm text-gray-600">
-                            Koltuk: {ticket.seatNumbers.join(', ')}
+                        <div className="text-left sm:text-right">
+                          <div className="text-lg sm:text-xl font-bold text-gray-900">{ticket.totalPrice} ₺</div>
+                          <div className="text-xs sm:text-sm text-gray-600">
+                            {t('tickets.seat')}: {ticket.seatNumbers.join(', ')}
                           </div>
                         </div>
 
                         {/* Expand Icon */}
-                        <div className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`}>
+                        <div className={`transition-transform ${isExpanded ? 'rotate-180' : ''} sm:ml-2`}>
                           <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg>
@@ -566,8 +572,8 @@ export default function TicketsPage() {
                   {/* Bilet Detayları */}
                   {isExpanded && (
                     <div className="border-t bg-gray-50">
-                      <div className="p-6">
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                      <div className="p-4 sm:p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                           {/* Sol Kolon - Bilet Bilgileri */}
                           <div className="space-y-4">
                             <h3 className="font-semibold text-gray-900 flex items-center gap-2">
@@ -672,36 +678,27 @@ export default function TicketsPage() {
 
                             {/* İşlem Butonları */}
                             <div className="flex flex-col gap-3 pt-4">
-                              <button 
+                              <Button
                                 onClick={() => downloadTicketPDF(ticket)}
                                 disabled={isDownloading === ticket.id}
-                                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                                loading={isDownloading === ticket.id}
+                                variant="primary"
+                                size="sm"
+                                icon={Download}
+                                fullWidth
                               >
-                                {isDownloading === ticket.id ? (
-                                  <>
-                                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    İndiriliyor...
-                                  </>
-                                ) : (
-                                  <>
-                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    PDF İndir
-                                  </>
-                                )}
-                              </button>
+                                PDF İndir
+                              </Button>
                               
                               {ticket.status === 'active' && (
-                                <button className="w-full bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors flex items-center justify-center gap-2">
-                                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                                  </svg>
+                                <Button
+                                  variant="danger"
+                                  size="sm"
+                                  icon={X}
+                                  fullWidth
+                                >
                                   İptal Et
-                                </button>
+                                </Button>
                               )}
                             </div>
                           </div>

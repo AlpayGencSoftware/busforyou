@@ -9,11 +9,9 @@ import { TextInput } from "@/components/ui/TextInput";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/hooks/useTranslation";
 
-const LoginSchema = Yup.object({
-  email: Yup.string().email("Geçerli bir e-posta girin").required("Zorunlu"),
-  password: Yup.string().min(6, "En az 6 karakter").required("Zorunlu"),
-});
+// Login schema moved inside component to access translations
 
 export default function LoginPage() {
   return (
@@ -24,10 +22,17 @@ export default function LoginPage() {
 }
 
 function LoginInner() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { currentUser, error } = useAppSelector((s) => s.auth);
+  
+  // Login schema with translations
+  const LoginSchema = Yup.object({
+    email: Yup.string().email(t('validation.email')).required(t('validation.required')),
+    password: Yup.string().min(6, t('validation.minLength').replace('{min}', '6')).required(t('validation.required')),
+  });
   
   const redirectUrl = searchParams.get('redirect') || '/';
   const isRedirectedFromTrip = redirectUrl.startsWith('/trip/');
@@ -44,10 +49,10 @@ function LoginInner() {
   }, [dispatch]);
 
   return (
-    <div className="min-h-screen pt-32" style={{ background: "var(--bg-gradient)" }}>
+    <div className="min-h-screen pt-40" style={{ background: "var(--bg-gradient)" }}>
       <div className="max-w-md mx-auto py-10 px-4">
-        <h1 className="text-3xl font-extrabold text-center mb-2">Giriş Yap</h1>
-        <p className="text-center text-brand-600 mb-8">Bus4You&apos;ya tekrar hoş geldiniz</p>
+        <h1 className="text-3xl font-extrabold text-center mb-2">{t('auth.login.title')}</h1>
+        <p className="text-center text-brand-600 mb-8">{t('auth.login.subtitle')}</p>
         
         {isRedirectedFromTrip && (
           <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
@@ -58,8 +63,8 @@ function LoginInner() {
                 </svg>
               </div>
               <div>
-                <p className="text-sm font-medium text-blue-900">Koltuk seçimi için giriş gerekli</p>
-                <p className="text-xs text-blue-700 mt-1">Giriş yaptıktan sonra seçtiğiniz seferden devam edebilirsiniz.</p>
+                <p className="text-sm font-medium text-blue-900">{t('auth.login.loginRequired')}</p>
+                <p className="text-xs text-blue-700 mt-1">{t('auth.login.loginRequiredText')}</p>
               </div>
             </div>
           </div>
@@ -78,26 +83,28 @@ function LoginInner() {
           <Form className="space-y-5">
             <Field name="email">
               {({ field }: FieldProps) => (
-                <TextInput {...field} type="email" label="E-posta Adresi" placeholder="ornek@email.com" />
+                <TextInput {...field} type="email" label={t('auth.login.email')} placeholder={t('auth.login.emailPlaceholder')} />
               )}
             </Field>
             <ErrorMessage name="email" component="div" className="text-xs text-red-600 mt-1" />
             <div>
               <Field name="password">
                 {({ field }: FieldProps) => (
-                  <PasswordInput {...field} label="Parola" placeholder="••••••••••" />
+                  <PasswordInput {...field} label={t('auth.login.password')} placeholder={t('auth.login.passwordPlaceholder')} />
                 )}
               </Field>
-              <div className="text-xs text-right text-gray-500 mt-1">Parolanızı mı unuttunuz?</div>
+              <div className="text-xs text-right text-gray-500 mt-1">{t('auth.login.forgotPassword')}</div>
               <ErrorMessage name="password" component="div" className="text-xs text-red-600 mt-1" />
             </div>
-            <Checkbox label="Beni hatırla" defaultChecked />
-            <Button type="submit" className="w-full search-button-color text-search-button-color-text rounded-2xl px-6 py-3 text-sm font-medium flex items-center justify-center gap-2 transition-all duration-300">Giriş Yap</Button>
+            <Checkbox label={t('auth.login.rememberMe')} defaultChecked />
+            <Button type="submit" variant="primary" size="md" fullWidth>
+              {t('auth.login.loginButton')}
+            </Button>
           </Form>
         )}
       </Formik>
       <div className="text-center mt-10 text-brand-700">
-        <a href={redirectUrl !== '/' ? `/register?redirect=${encodeURIComponent(redirectUrl)}` : '/register'} className="underline">Hesap oluştur</a>
+        <a href={redirectUrl !== '/' ? `/register?redirect=${encodeURIComponent(redirectUrl)}` : '/register'} className="underline">{t('auth.login.signUpLink')}</a>
       </div>
       </div>
     </div>

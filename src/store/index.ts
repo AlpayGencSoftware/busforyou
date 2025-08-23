@@ -5,6 +5,7 @@ import searchReducer from "@/store/slices/searchSlice";
 import tripsReducer from "@/store/slices/tripsSlice";
 import bookingReducer from "@/store/slices/bookingSlice";
 import ticketsReducer from "@/store/slices/ticketsSlice";
+import languageReducer from "@/store/slices/languageSlice";
 
 // Root reducer
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   trips: tripsReducer,
   booking: bookingReducer,
   tickets: ticketsReducer,
+  language: languageReducer,
 });
 
 export const store = configureStore({

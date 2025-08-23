@@ -33,13 +33,13 @@ export default function RootLayout({
     <html lang="tr">
       <body
         suppressHydrationWarning
-        className={`${roboto.variable} antialiased`}
+        className={`${roboto.variable} antialiased min-h-screen flex flex-col`}
       >
         <AppProviders>
           <Header />
-          <div className="pb-24 md:pb-0">{children}</div>
+          <main className="flex-1 md:pb-0 sm:pb-0">{children}</main>
           <Footer />
-          <MobileNav />
+          {/* <MobileNav /> */}
         </AppProviders>
       </body>
     </html>
