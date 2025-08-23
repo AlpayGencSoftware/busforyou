@@ -42,7 +42,7 @@ export function FormikSelect({ name, options, placeholder = "Select...", leftIco
   const selectedLabel = list.find((o) => o.value === current)?.label || "";
 
   return (
-    <div className="relative h-10" ref={ref}>
+    <div className="relative" ref={ref}>
       {/* button */}
       <button
         type="button"
@@ -53,12 +53,12 @@ export function FormikSelect({ name, options, placeholder = "Select...", leftIco
         className={className || "w-full h-10 text-left bg-gray-50 border-0 rounded-xl pl-7 pr-8 text-sm flex items-center hover:bg-gray-100 transition-colors"}
       >
         {leftIcon && (
-          <span className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-500">{leftIcon}</span>
+          <span className="absolute left-2.5 sm:left-3 md:left-4 top-1/2 -translate-y-1/2 text-gray-500 flex items-center">{leftIcon}</span>
         )}
-        <span className={`truncate ${selectedLabel ? "text-gray-900" : "text-gray-400"}`}>
+        <span className={`truncate flex-1 pt-0.5 ${selectedLabel ? "text-gray-900" : "text-gray-400"}`}>
           {selectedLabel || placeholder}
         </span>
-        <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-400">
+        <span className="pointer-events-none absolute right-2.5 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 text-gray-400 flex items-center">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="m6 9 6 6 6-6"/>
           </svg>

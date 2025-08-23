@@ -64,7 +64,7 @@ export function SearchBar() {
                   name="fromCity" 
                   options={cities} 
                   placeholder={t('search.selectDepartureCity')}
-                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 pl-9 sm:pl-10 md:pl-12 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-search-button-color focus:border-transparent text-left"
+                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-3 sm:px-4 sm:py-3.5 md:px-5 md:py-4 pl-10 sm:pl-12 md:pl-14 pr-10 sm:pr-12 md:pr-14 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-search-button-color focus:border-transparent text-left"
                   leftIcon={<MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />}
                 />
               </div>
@@ -81,7 +81,7 @@ export function SearchBar() {
                   name="toCity" 
                   options={availableDestinations} 
                   placeholder={t('search.selectArrivalCity')}
-                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 pl-9 sm:pl-10 md:pl-12 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-search-button-color focus:border-transparent text-left"
+                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-3 sm:px-4 sm:py-3.5 md:px-5 md:py-4 pl-10 sm:pl-12 md:pl-14 pr-10 sm:pr-12 md:pr-14 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-search-button-color focus:border-transparent text-left"
                   leftIcon={<MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />}
                 />
               </div>
@@ -94,12 +94,12 @@ export function SearchBar() {
             <div className="space-y-1 sm:space-y-2 md:space-y-3">
               <label className="text-xs sm:text-sm md:text-base font-medium text-gray-700">{t('search.date')}</label>
               <div className="relative">
-                <CalendarDays className="absolute left-2.5 sm:left-3 md:left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-gray-500" />
+                <CalendarDays className="absolute left-2.5 sm:left-3 md:left-4 top-1/2 -translate-y-1/2 w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5 text-gray-500 flex items-center" />
                 <Field 
                   type="date" 
                   name="date" 
                   min={today} 
-                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-2.5 sm:px-4 sm:py-3 md:px-5 md:py-4 pl-9 sm:pl-10 md:pl-12 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full rounded-xl sm:rounded-2xl bg-white border border-gray-300 px-3 py-3 sm:px-4 sm:py-3.5 md:px-5 md:py-4 pl-10 sm:pl-12 md:pl-14 text-sm md:text-base placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   style={{ colorScheme: 'light' }}
                 />
               </div>
@@ -117,6 +117,7 @@ export function SearchBar() {
                 icon={Search}
                 fullWidth
                 mobileText="Ara"
+                className="search-button-color text-search-button-color-text rounded-xl sm:rounded-2xl px-4 py-2.5 sm:px-6 sm:py-3 md:px-8 md:py-4 text-sm md:text-base font-medium flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105 shadow-lg"
               >
                 {t('search.searchTrips')}
               </Button>

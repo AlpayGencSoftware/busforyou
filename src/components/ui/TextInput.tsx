@@ -14,7 +14,7 @@ export function TextInput({ label, hint, rightIcon, className, ...rest }: Props)
       <div className="relative">
         <input
           className={clsx(
-            "w-full rounded-2xl bg-white border border-gray-300 px-4 py-3 text-sm placeholder:text-gray-400",
+            "w-full rounded-2xl bg-white border border-gray-300 px-4 py-3.5 text-sm placeholder:text-gray-400",
             className
           )}
           {...rest}

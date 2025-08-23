@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useAppSelector, useAppDispatch } from "@/store";
 import { useState, useRef, useEffect } from "react";
 import { Menu, X, User, Settings, Ticket, LogOut, ChevronDown, Globe, HelpCircle, MessageCircle, Bookmark } from "lucide-react";
+import { Button } from "@/components/ui/Button";
 import { logout } from "@/store/slices/authSlice";
 import { clearBooking } from "@/store/slices/bookingSlice";
 import { setLanguage } from "@/store/slices/languageSlice";
@@ -120,7 +121,7 @@ export function Header() {
                     <div className="px-1">
                       <button
                         onClick={() => handleLanguageChange('tr')}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-200 ${
+                        className={`w-full flex items-center gap-3 px-3 py-3 text-sm rounded-lg transition-all duration-200 ${
                           currentLanguage === 'tr' 
                             ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md transform scale-105' 
                             : 'text-gray-700 hover:bg-gray-50 hover:scale-102'
@@ -131,7 +132,7 @@ export function Header() {
                       </button>
                       <button
                         onClick={() => handleLanguageChange('en')}
-                        className={`w-full flex items-center gap-3 px-3 py-2.5 text-sm rounded-lg transition-all duration-200 ${
+                        className={`w-full flex items-center gap-3 px-3 py-3 text-sm rounded-lg transition-all duration-200 ${
                           currentLanguage === 'en' 
                             ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md transform scale-105' 
                             : 'text-gray-700 hover:bg-gray-50 hover:scale-102'
@@ -304,35 +305,49 @@ export function Header() {
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white/98 backdrop-blur-xl border-b border-gray-100 shadow-2xl">
           <nav className="px-4 py-6 space-y-3">
-            {/* Navigation Links */}
-            <Link 
-              href="/" 
-              className="block px-5 py-3.5 text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 rounded-xl transition-all duration-200 font-medium hover:scale-102" 
-              onClick={() => setMobileMenuOpen(false)}
+                        {/* Navigation Links */}
+            <Button
+              variant="ghost"
+              size="md"
+              fullWidth
+              onClick={() => {
+                setMobileMenuOpen(false);
+                router.push('/');
+              }}
+              className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 font-medium hover:scale-102"
             >
               {t('header.flight')}
-            </Link>
-            <Link 
-              href="/inquiry" 
-              className="block px-5 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102" 
-              onClick={() => setMobileMenuOpen(false)}
+            </Button>
+            <Button
+              variant="primary"
+              size="md"
+              fullWidth
+              onClick={() => {
+                setMobileMenuOpen(false);
+                router.push('/inquiry');
+              }}
+              className="px-5 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102"
             >
               {t('header.bus')}
-            </Link>
-            <Link 
-              href="#" 
-              className="block px-5 py-3.5 text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 rounded-xl transition-all duration-200 font-medium hover:scale-102" 
+            </Button>
+            <Button
+              variant="ghost"
+              size="md"
+              fullWidth
               onClick={() => setMobileMenuOpen(false)}
+              className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 font-medium hover:scale-102"
             >
               {t('header.carRental')}
-            </Link>
-            <Link 
-              href="#" 
-              className="block px-5 py-3.5 text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 rounded-xl transition-all duration-200 font-medium hover:scale-102" 
+            </Button>
+            <Button
+              variant="ghost"
+              size="md"
+              fullWidth
               onClick={() => setMobileMenuOpen(false)}
+              className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 font-medium hover:scale-102"
             >
               {t('header.ferry')}
-            </Link>
+            </Button>
             
             {/* User Section */}
             {currentUser ? (
@@ -350,46 +365,69 @@ export function Header() {
                 
                 {/* Menu Items */}
                 <div className="space-y-2">
-                  <button className="w-full flex items-center gap-3 px-5 py-3.5 text-sm text-gray-700 hover:bg-blue-50/80 hover:text-blue-600 rounded-xl transition-all duration-200 hover:scale-102">
-                    <Settings className="w-5 h-5" />
-                    <span className="font-medium">{t('header.profileSettings')}</span>
-                  </button>
-                  <Link 
-                    href="/tickets" 
-                    className="w-full flex items-center gap-3 px-5 py-3.5 text-sm text-gray-700 hover:bg-blue-50/80 hover:text-blue-600 rounded-xl transition-all duration-200 hover:scale-102"
-                    onClick={() => setMobileMenuOpen(false)}
+                  <Button
+                    variant="ghost"
+                    size="md"
+                    fullWidth
+                    icon={Settings}
+                    className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 hover:scale-102"
                   >
-                    <Ticket className="w-5 h-5" />
+                    <span className="font-medium">{t('header.profileSettings')}</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="md"
+                    fullWidth
+                    icon={Ticket}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      router.push('/tickets');
+                    }}
+                    className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 hover:scale-102"
+                  >
                     <span className="font-medium">{t('header.myTickets')}</span>
-                  </Link>
-                  <button 
+                  </Button>
+                  <Button
+                    variant="danger"
+                    size="md"
+                    fullWidth
+                    icon={LogOut}
                     onClick={() => {
                       handleLogout();
                       setMobileMenuOpen(false);
                     }}
-                    className="w-full flex items-center gap-3 px-5 py-3.5 text-sm text-red-600 hover:bg-red-50/80 rounded-xl transition-all duration-200 hover:scale-102"
+                    className="justify-start px-5 py-3.5 rounded-xl transition-all duration-200 hover:scale-102"
                   >
-                    <LogOut className="w-5 h-5" />
                     <span className="font-medium">{t('header.logout')}</span>
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : (
               <div className="border-t border-gray-100 pt-5 mt-5 space-y-3">
-                <Link 
-                  href="/login" 
-                  className="block w-full px-5 py-3.5 text-sm font-medium text-gray-700 hover:bg-blue-50/80 hover:text-blue-600 rounded-xl transition-all duration-200 text-center hover:scale-102" 
-                  onClick={() => setMobileMenuOpen(false)}
+                <Button
+                  variant="ghost"
+                  size="md"
+                  fullWidth
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    router.push('/login');
+                  }}
+                  className="text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 text-center hover:scale-102"
                 >
                   {t('header.login')}
-                </Link>
-                <Link 
-                  href="/register" 
-                  className="block w-full px-5 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-xl transition-all duration-200 text-center hover:scale-102 shadow-lg hover:shadow-xl" 
-                  onClick={() => setMobileMenuOpen(false)}
+                </Button>
+                <Button
+                  variant="primary"
+                  size="md"
+                  fullWidth
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    router.push('/register');
+                  }}
+                  className="px-5 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl transition-all duration-200 text-center hover:scale-102 shadow-lg hover:shadow-xl"
                 >
                   {t('header.register')}
-                </Link>
+                </Button>
               </div>
             )}
 

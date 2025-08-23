@@ -30,10 +30,10 @@ export function Button({
   // Variant stilleri
   const variantStyles = {
     primary: 'search-button-color text-search-button-color-text shadow-lg',
-    secondary: 'bg-gray-100 text-gray-900 shadow-md',
-    outline: 'border-2 border-blue-500 text-blue-500 shadow-md',
-    ghost: 'text-blue-500',
-    danger: 'bg-red-600 text-white shadow-lg'
+    secondary: 'bg-gray-100 text-gray-900 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-102',
+    outline: 'border-2 border-blue-500 text-blue-500 shadow-md hover:shadow-lg transition-all duration-200 hover:scale-102',
+    ghost: 'text-blue-500 hover:bg-blue-50 transition-all duration-200 hover:scale-102',
+    danger: 'bg-red-600 text-white shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102'
   };
 
   // Size stilleri
