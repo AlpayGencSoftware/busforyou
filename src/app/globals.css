@@ -18,7 +18,7 @@
 
 :root {
   --bg-soft: linear-gradient(180deg, #fcfcfc 0%, #ffffff 100%);
-  --bg-gradient: radial-gradient(circle, rgba(251, 244, 245, 1) 1%, rgba(248, 244, 245, 1) 25%, rgba(251, 246, 248, 1) 62%, rgba(241, 237, 243, 1) 100%);
+  --bg-gradient: radial-gradient(circle, #F1E0DA 0%, #E4DFEA 50%, #EFDDD7 100%);
 }
 
 /* Kurumsal link alt çizgi animasyonu */

@@ -41,6 +41,9 @@
     "loginButton": "Login",
     "noTickets": "You don't have any tickets yet",
     "downloadPDF": "Download PDF",
+    "viewTicket": "View Tickets",
+    "viewTicketMessage": "You need to log in to view your tickets.",
+    "viewTicketButton": "Login",
     "filters": {
       "all": "All",
       "active": "Active",

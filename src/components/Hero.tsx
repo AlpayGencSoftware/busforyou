@@ -6,11 +6,10 @@ import { useTranslation } from "@/hooks/useTranslation";
 type HeroProps = {
   title?: string;
   subtitle?: string;
-  illustrationSrc?: string;
   children?: React.ReactNode;
 };
 
-export function Hero({ title, subtitle, illustrationSrc = "/bg.jpg", children }: HeroProps) {
+export function Hero({ title, subtitle, children }: HeroProps) {
   const { t } = useTranslation();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -77,7 +76,7 @@ export function Hero({ title, subtitle, illustrationSrc = "/bg.jpg", children }:
   return (
     <section 
       className="w-full min-h-[calc(100vh-6rem)] bg-cover bg-center bg-no-repeat relative"
-      style={{ backgroundImage: `url(${illustrationSrc})` }}
+      style={{ background: "var(--bg-gradient)" }}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-black/5"></div>

@@ -41,6 +41,9 @@
     "loginButton": "Giriş Yap",
     "noTickets": "Henüz biletiniz bulunmuyor",
     "downloadPDF": "PDF İndir",
+    "viewTicket": "Biletlerinizi Görüntüleyin",
+    "viewTicketMessage": "Biletlerinizi görüntülemek için giriş yapmanız gerekmektedir.",
+    "viewTicketButton": "Giriş Yap",
     "filters": {
       "all": "Tümü",
       "active": "Aktif",
