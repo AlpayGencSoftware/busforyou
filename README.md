@@ -2,14 +2,14 @@
 
 <div align="center">
 
-![Next.js](https://img.shields.io/badge/Next.js-14.2.5-black?style=flat-square&logo=next.js)
+![Next.js](https://img.shields.io/badge/Next.js-15.5.0-black?style=flat-square&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue?style=flat-square&logo=typescript)
 ![Redux](https://img.shields.io/badge/Redux-Toolkit-purple?style=flat-square&logo=redux)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC?style=flat-square&logo=tailwind-css)
 
 **Türkiye'nin en modern otobüs bilet rezervasyon platformu**
 
-[Demo](http://localhost:3000) • [Dokümantasyon](#-kullanim-klavuzu) • [Özellikler](#-temel-ozellikler) • [API](#-api-referansi)
+[Demo](https://bus4you.vercel.app) • [Dokümantasyon](#-kullanim-klavuzu) • [Özellikler](#-temel-ozellikler) • [API](#-api-referansi)
 
 </div>
 
@@ -17,7 +17,7 @@
 
 ## 📖 Proje Hakkında
 
-**Bus4You**, kullanıcıların şehirlerarası otobüs seferlerini kolayca arayıp, koltuk seçimi yapıp, güvenli ödeme ile bilet satın alabileceği modern bir web uygulamasıdır. Next.js 14 App Router, TypeScript ve Redux Toolkit kullanılarak geliştirilmiş, tamamen responsive tasarıma sahip bir platformdur.
+**Bus4You**, kullanıcıların şehirlerarası otobüs seferlerini kolayca arayıp, koltuk seçimi yapıp, güvenli ödeme ile bilet satın alabileceği modern bir web uygulamasıdır. Next.js 15 App Router, TypeScript ve Redux Toolkit kullanılarak geliştirilmiş, tamamen responsive tasarıma sahip bir platformdur.
 
 ### 🎯 Proje Vizyonu
 Modern teknolojiler kullanarak, kullanıcı dostu ve güvenli bir otobüs bilet rezervasyon deneyimi sunmak.
@@ -30,11 +30,13 @@ Modern teknolojiler kullanarak, kullanıcı dostu ve güvenli bir otobüs bilet 
 - **Güvenli Kayıt Sistemi**: Güçlü parola politikası ile
 - **Oturum Yönetimi**: Redux tabanlı state management
 - **Profil Yönetimi**: Kullanıcı bilgileri güncelleme
+- **Çoklu Dil Desteği**: Türkçe/İngilizce
 
 ### 🔍 **Gelişmiş Sefer Arama**
 - **Akıllı Filtreleme**: Şehir, tarih bazlı arama
 - **Gerçek Zamanlı Sonuçlar**: Anlık sefer listesi
 - **Fiyat Karşılaştırma**: Şeffaf fiyatlandırma
+- **Responsive Arama**: Mobil uyumlu arayüz
 
 ### 🪑 **İnteraktif Koltuk Seçimi**
 - **Görsel Otobüs Düzeni**: SVG tabanlı koltuk haritası
@@ -51,11 +53,12 @@ Modern teknolojiler kullanarak, kullanıcı dostu ve güvenli bir otobüs bilet 
 - **PDF Bilet Oluşturma**: Profesyonel bilet tasarımı
 - **Bilet Geçmişi**: Tüm rezervasyonları görüntüleme
 - **Durum Takibi**: Aktif/kullanılmış/iptal edilmiş
+- **Filtreleme**: Durum bazlı bilet filtreleme
 
 ### 🎨 **Modern Kullanıcı Arayüzü**
 - **Responsive Tasarım**: Mobil-first yaklaşım
-- **GSAP Animasyonları**: Akıcı geçişler ve efektler
-- **Dark/Light Theme**: Kullanıcı tercihi
+- **Smooth Animasyonlar**: Akıcı geçişler ve efektler
+- **Gradient Backgrounds**: Modern görsel tasarım
 - **Accessibility**: WCAG 2.1 uyumlu
 
 ---
@@ -65,7 +68,7 @@ Modern teknolojiler kullanarak, kullanıcı dostu ve güvenli bir otobüs bilet 
 ### **Frontend**
 | Teknoloji | Versiyon | Açıklama |
 |-----------|----------|----------|
-| **Next.js** | 14.2.5 | React framework (App Router) |
+| **Next.js** | 15.5.0 | React framework (App Router) |
 | **TypeScript** | 5.0+ | Type-safe development |
 | **React** | 18+ | UI library |
 | **Tailwind CSS** | 3.4+ | Utility-first CSS framework |
@@ -82,12 +85,11 @@ Modern teknolojiler kullanarak, kullanıcı dostu ve güvenli bir otobüs bilet 
 | **Formik** | 2.4+ | Form handling |
 | **Yup** | 1.4+ | Schema validation |
 
-### **UI & Animations**
+### **UI & Icons**
 | Teknoloji | Versiyon | Açıklama |
 |-----------|----------|----------|
 | **Lucide React** | 0.400+ | Modern icon library |
-| **GSAP** | 3.12+ | Professional animations |
-| **SweetAlert2** | 11.10+ | Beautiful alerts |
+| **Custom Components** | - | Reusable UI components |
 
 ### **PDF & Export**
 | Teknoloji | Versiyon | Açıklama |
@@ -109,8 +111,8 @@ Modern teknolojiler kullanarak, kullanıcı dostu ve güvenli bir otobüs bilet 
 
 ```bash
 # 1. Projeyi klonlayın
-git clone https://github.com/your-username/bus4you.git
-cd bus4you
+git clone https://github.com/AlpayGencSoftware/busforyou.git
+cd busforyou
 
 # 2. Bağımlılıkları yükleyin
 npm install
@@ -160,7 +162,8 @@ Parola: Demo1!
 #### Yeni Kayıt
 - **Güçlü Parola**: Min. 6 karakter, büyük/küçük harf, rakam, özel karakter
 - **E-posta Validasyonu**: Gerçek e-posta formatı gerekli
-- **Kişisel Bilgiler**: Ad, soyad, telefon, doğum tarihi
+- **Kişisel Bilgiler**: Ad, soyad, telefon, doğum tarihi (GG/AA/YYYY formatı)
+- **TC Kimlik**: 11 haneli geçerli TC kimlik numarası
 
 ### 🔍 **Sefer Arama**
 
@@ -191,6 +194,13 @@ Parola: Demo1!
 4. **Başarı mesajı** ve bilet oluşturma
 5. **PDF indirme** seçeneği
 
+### 📋 **Bilet Yönetimi**
+
+- **Biletlerim** sayfasından tüm biletleri görüntüleme
+- **Filtreleme**: Tümü, Aktif, Kullanılmış
+- **PDF İndirme**: Her bilet için ayrı PDF
+- **Durum Takibi**: Bilet durumlarını görme
+
 ---
 
 ## 🗂 Proje Yapısı
@@ -198,9 +208,9 @@ Parola: Demo1!
 ```
 bus4you/
 ├── 📁 public/                  # Static assets
-│   ├── 🖼 bg.jpg              # Hero background
 │   ├── 🖼 bus_PNG101194.png   # Bus illustration
-│   └── 🖼 logo.png            # App logo
+│   ├── 🖼 bus-main.jpg       # Hero background
+│   └── 🖼 Logo.svg           # App logo
 ├── 📁 src/
 │   ├── 📁 app/                # Next.js App Router
 │   │   ├── 📁 (auth)/         # Authentication pages
@@ -221,12 +231,24 @@ bus4you/
 │   │   ├── 📄 Hero.tsx        # Hero section
 │   │   ├── 📄 SearchBar.tsx   # Search form
 │   │   └── 📁 ui/             # UI components
+│   │       ├── 📄 Button.tsx  # Custom button component
+│   │       ├── 📄 TextInput.tsx # Text input component
+│   │       └── 📄 PasswordInput.tsx # Password input
 │   ├── 📁 store/              # Redux store
 │   │   ├── 📄 index.ts        # Store configuration
 │   │   └── 📁 slices/         # Redux slices
-│   ├── 📁 mocks/              # Mock data
-│   │   └── 📄 trips.json      # Sample trips
-│   └── 📁 types/              # TypeScript definitions
+│   │       ├── 📄 authSlice.ts # Authentication state
+│   │       ├── 📄 bookingSlice.ts # Booking state
+│   │       ├── 📄 languageSlice.ts # Language state
+│   │       └── 📄 tripsSlice.ts # Trips state
+│   ├── 📁 hooks/              # Custom hooks
+│   │   └── 📄 useTranslation.ts # Translation hook
+│   ├── 📁 locales/            # Translation files
+│   │   ├── 📄 tr.json         # Turkish translations
+│   │   └── 📄 en.json         # English translations
+│   └── 📁 mocks/              # Mock data
+│       ├── 📄 cities.json     # City data
+│       └── 📄 trips.json      # Sample trips
 ├── 📄 package.json            # Dependencies
 ├── 📄 tailwind.config.js      # Tailwind configuration
 ├── 📄 tsconfig.json           # TypeScript configuration
@@ -255,6 +277,9 @@ bus4you/
 /* Neutral Colors */
 --gray-50: #F9FAFB;           /* Açık gri */
 --gray-900: #111827;          /* Koyu gri */
+
+/* Gradient Backgrounds */
+--bg-gradient: radial-gradient(circle, #F1E0DA 0%, #E4DFEA 50%, #EFDDD7 100%);
 ```
 
 ### 📐 **Spacing System**
@@ -306,6 +331,20 @@ interface Ticket {
 }
 ```
 
+### 👤 **Kullanıcı Profili**
+```typescript
+interface UserProfile {
+  id: string;          // Kullanıcı ID
+  firstName: string;   // Ad
+  lastName: string;    // Soyad
+  email: string;       // E-posta
+  phone: string;       // Telefon
+  tcNumber: string;    // TC Kimlik
+  gender: 'male' | 'female'; // Cinsiyet
+  birthDate: string;   // Doğum tarihi (GG/AA/YYYY)
+}
+```
+
 ---
 
 ## 🧪 Test Senaryoları
@@ -316,6 +355,7 @@ interface Ticket {
    - Yeni hesap oluştur
    - Güçlü parola kontrolü
    - E-posta validasyonu
+   - Doğum tarihi format kontrolü (GG/AA/YYYY)
 
 2. **Sefer Arama**
    - İstanbul → Ankara sefer ara
@@ -332,13 +372,18 @@ interface Ticket {
    - Ödeme simülasyonunu bekle
    - PDF bilet indir
 
+5. **Bilet Yönetimi**
+   - Biletlerim sayfasını aç
+   - Filtreleme işlevini test et
+   - PDF indirme işlevini test et
+
 ---
 
 ## 🔧 Geliştirme Notları
 
 ### 🏗 **Mimari Kararlar**
 
-- **App Router**: Next.js 13+ routing sistemi
+- **App Router**: Next.js 15 routing sistemi
 - **Redux Toolkit**: Modern state management
 - **TypeScript**: Type safety için
 - **Tailwind CSS**: Utility-first styling
@@ -357,6 +402,13 @@ interface Ticket {
 - **XSS Protection**: Next.js built-in
 - **CSRF Protection**: SameSite cookies
 - **Type Safety**: TypeScript strict mode
+
+### 🌐 **Çoklu Dil Desteği**
+
+- **i18n**: Custom translation hook
+- **JSON Files**: Türkçe/İngilizce çeviriler
+- **Dynamic Language**: Runtime dil değiştirme
+- **SEO Friendly**: Dil bazlı meta tags
 
 ---
 
@@ -414,8 +466,8 @@ Bu proje **MIT License** altında lisanslanmıştır. Detaylar için [LICENSE](L
 
 **Bus4You Development Team**
 
-[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/your-username)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/your-profile)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AlpayGencSoftware)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/alpaygenc)
 [![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:contact@bus4you.com)
 
 **Proje hakkında sorularınız için iletişime geçebilirsiniz.**
