@@ -467,10 +467,16 @@ Bu proje **MIT License** altında lisanslanmıştır. Detaylar için [LICENSE](L
 **Bus4You Development Team**
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/AlpayGencSoftware)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/alpaygenc)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:contact@bus4you.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alpay-gen%C3%A7-9414223a/)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:genc_alpay@hotmail.com)
 
 **Proje hakkında sorularınız için iletişime geçebilirsiniz.**
+
+### 📧 **İletişim Bilgileri**
+
+- **LinkedIn**: [Alpay Genç](https://www.linkedin.com/in/alpay-gen%C3%A7-9414223a/)
+- **E-posta**: [genc_alpay@hotmail.com](mailto:genc_alpay@hotmail.com)
+- **Telefon**: [+90 539 216 42 73](tel:+905392164273)
 
 </div>
 
