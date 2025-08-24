@@ -66,12 +66,12 @@ export function Footer() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-sm text-gray-400">
-              © Bus4You {new Date().getFullYear()} - Tüm hakları saklıdır
+                 {t('footer.copyright')} 
             </div>
             <div className="flex gap-4 text-xs text-gray-400">
-              <a href="#" className="hover:text-gray-300 transition-colors">Gizlilik</a>
-              <a href="#" className="hover:text-gray-300 transition-colors">Şartlar</a>
-              <a href="#" className="hover:text-gray-300 transition-colors">Çerezler</a>
+              <a href="#" className="hover:text-gray-300 transition-colors">{t('footer.privacy')}</a>
+              <a href="#" className="hover:text-gray-300 transition-colors">{t('footer.terms')}</a>
+              <a href="#" className="hover:text-gray-300 transition-colors">{t('footer.cookies')}</a>
             </div>
           </div>
         </div>

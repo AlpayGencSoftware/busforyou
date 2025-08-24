@@ -158,8 +158,7 @@
     "support": "Destek",
     "helpCenter": "Yardım Merkezi",
     "contactUs": "İletişim",
-    "faq": "Sıkça Sorulan Sorular",
-    "terms": "Kullanım Şartları",
+    "faq": "Sıkça Sorulan Sorular", 
     "services": "Hizmetler",
     "busTickets": "Otobüs Biletleri",
     "flightTickets": "Uçak Biletleri",
@@ -176,7 +175,11 @@
     "iosApp": "iOS Uygulaması",
     "androidApp": "Android Uygulaması",
     "iosAppDownload": "iOS Uygulamasını İndir",
-    "androidAppDownload": "Android Uygulamasını İndir"
+    "androidAppDownload": "Android Uygulamasını İndir",
+    "privacy": "Gizlilik",
+    "terms": "Şartlar",
+    "cookies": "Çerezler",
+    "copyright": "Copyright © 2025 Bus4You. Tüm hakları saklıdır."
   },
   "auth": {
     "login": {

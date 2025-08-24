@@ -174,7 +174,10 @@
     "iosApp": "iOS App",
     "androidApp": "Android App",
     "iosAppDownload": "Download iOS App",
-    "androidAppDownload": "Download Android App"
+    "androidAppDownload": "Download Android App",
+    "privacy": "Privacy", 
+    "cookies": "Cookies",
+    "copyright": "Copyright © 2025 Bus4You. All rights reserved."
   },
   "auth": {
     "login": {
