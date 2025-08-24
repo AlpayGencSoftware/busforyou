@@ -133,7 +133,7 @@ export default function TicketsPage() {
   }
 
 
-  const downloadTicketPDF = async (ticket: any) => {
+  const downloadTicketPDF = async (ticket: typeof tickets[number]) => {
     setIsDownloading(ticket.id);
     
     try {
@@ -368,7 +368,7 @@ export default function TicketsPage() {
       
 
       const xOffset = 10;
-      let yOffset = 10;
+      const yOffset = 10;
       
 
       if (imgHeight > pdfHeight - 20) {

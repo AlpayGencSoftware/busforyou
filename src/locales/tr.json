@@ -16,7 +16,10 @@
     "myTickets": "Biletlerim",
     "helpCenter": "Yardım Merkezi",
     "logout": "Çıkış Yap",
-    "loginRequired": "Giriş Gerekli"
+    "loginRequired": "Giriş Gerekli",
+    "selectLanguage": "Dil Seç",
+    "turkish": "Türkçe",
+    "english": "İngilizce"
   },
   "search": {
     "from": "Nereden",

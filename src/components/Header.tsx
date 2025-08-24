@@ -3,7 +3,7 @@ import { Logo } from "@/components/Logo";
 import Link from "next/link";
 import { useAppSelector, useAppDispatch } from "@/store";
 import { useState, useRef, useEffect } from "react";
-import { Menu, X, User, Settings, Ticket, LogOut, ChevronDown, Globe, HelpCircle, MessageCircle, Bookmark } from "lucide-react";
+import { Menu, X, User, Settings, Ticket, LogOut, ChevronDown, Globe, HelpCircle, MessageCircle, Bookmark, LogIn, UserPlus } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { logout } from "@/store/slices/authSlice";
 import { clearBooking } from "@/store/slices/bookingSlice";
@@ -114,32 +114,33 @@ export function Header() {
                 
                 {/* Language Dropdown */}
                 {languageMenuOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-36 bg-white rounded-xl shadow-2xl border border-gray-100 py-2" style={{ zIndex: 999999 }}>
-                    <div className="px-3 py-1 text-xs font-medium text-gray-500 uppercase tracking-wide">
-                      Select Language
+                  <div className="absolute top-full right-0 mt-2 w-20 bg-white rounded-xl shadow-2xl border border-gray-100 py-2" style={{ zIndex: 999999 }}>
+                    <div className="px-3 py-1 text-gray-500 uppercase tracking-wide select-language-button">
+                      {t('header.selectLanguage')}
                     </div>
                     <div className="px-1">
                       <button
                         onClick={() => handleLanguageChange('tr')}
-                        className={`w-full flex items-center gap-3 px-3 py-3 text-sm rounded-lg transition-all duration-200 ${
+                        className={`w-full flex items-center gap-1 px-1 py-1 text-sm
+                          transition-all duration-200 ${
                           currentLanguage === 'tr' 
                             ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md transform scale-105' 
-                            : 'text-gray-700 hover:bg-gray-50 hover:scale-102'
+                            : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
                         <span className="text-base">🇹🇷</span>
-                        <span className="font-medium">Türkçe</span>
+                        <span className="language-button-text">{t('header.turkish')}</span>
                       </button>
                       <button
                         onClick={() => handleLanguageChange('en')}
-                        className={`w-full flex items-center gap-3 px-3 py-3 text-sm rounded-lg transition-all duration-200 ${
+                        className={`w-full flex items-center gap-1 px-1 py-1 text-sm transition-all duration-200 ${
                           currentLanguage === 'en' 
                             ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md transform scale-105' 
-                            : 'text-gray-700 hover:bg-gray-50 hover:scale-102'
+                            : 'text-gray-700 hover:bg-gray-50'
                         }`}
                       >
                         <span className="text-base">🇺🇸</span>
-                        <span className="font-medium">English</span>
+                        <span className="language-button-text">{t('header.english')}</span>
                       </button>
                     </div>
                   </div>
@@ -197,8 +198,10 @@ export function Header() {
                   <span className={`absolute bottom-0 left-0 w-0 h-0.5 transition-all duration-300 group-hover:w-full ${navLinkUnderline}`}></span>
                 </Link>
               </div>
+            </nav>
 
-              {/* User Section */}
+            {/* Desktop Auth */}
+            <div className="hidden lg:flex items-center gap-3">
               {currentUser ? (
                 <div className="relative z-[99999]" ref={userMenuRef}>
                   <button
@@ -219,10 +222,8 @@ export function Header() {
                     <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${userMenuOpen ? 'rotate-180' : ''} ${isLightBackground ? 'text-gray-700' : 'text-white/70'}`} />
                   </button>
 
-                  {/* User Dropdown */}
                   {userMenuOpen && (
                     <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-200 py-3" style={{ zIndex: 99999 }}>
-                      {/* User Info */}
                       <div className="px-6 py-4 border-b border-gray-100/50">
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 bg-gradient-to-br search-button-color  rounded-full flex items-center justify-center">
@@ -234,8 +235,6 @@ export function Header() {
                           </div>
                         </div>
                       </div>
-                      
-                      {/* Menu Items */}
                       <div className="py-2">
                         <button className="w-full flex items-center gap-3 px-6 py-3 text-sm text-gray-700 hover:bg-gray-50/80 transition-colors">
                           <Settings className="w-4 h-4" />
@@ -250,8 +249,6 @@ export function Header() {
                           {t('header.helpCenter')}
                         </button>
                       </div>
-                      
-                      {/* Logout */}
                       <div className="border-t border-gray-100/50 py-2">
                         <button 
                           onClick={handleLogout}
@@ -265,26 +262,34 @@ export function Header() {
                   )}
                 </div>
               ) : (
-                <div className="flex items-center gap-3">
-                  <Link 
-                    href="/login" 
-                    className={`font-bold transition-colors duration-300 relative group ${navLinkColor}`}
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    icon={LogIn}
+                    onClick={() => router.push('/login')}
+                    pill
+                    className="px-5 !text-[#192333] !border-2 !border-[#192333] !bg-transparent hover:!bg-transparent"
                   >
                     {t('header.login')}
-                  </Link>
-                  <Link 
-                    href="/register" 
-                    className="px-6 py-2.5 search-button-color text-search-button-color-text text-sm font-bold rounded-full transition-all duration-300"
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    icon={UserPlus}
+                    onClick={() => router.push('/register')}
+                    pill
+                    className="px-5"
                   >
                     {t('header.register')}
-                  </Link>
+                  </Button>
                 </div>
               )}
-            </nav>
+            </div>
 
             {/* Mobile Menu Button */}
             <button 
-              className={`lg:hidden relative p-2.5 rounded-xl backdrop-blur-sm border transition-all duration-300 hover:scale-105 ${menuToggleBg}`} 
+              className={`lg:hidden relative p-2.5 rounded-full backdrop-blur-sm border transition-all duration-300 hover:scale-105 ${menuToggleBg}`} 
               aria-label="menu" 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
@@ -314,7 +319,7 @@ export function Header() {
                 setMobileMenuOpen(false);
                 router.push('/');
               }}
-              className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 font-medium hover:scale-102"
+              className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-full transition-all duration-200 font-medium hover:scale-102"
             >
               {t('header.flight')}
             </Button>
@@ -326,7 +331,7 @@ export function Header() {
                 setMobileMenuOpen(false);
                 router.push('/inquiry');
               }}
-              className="px-5 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102"
+              className="px-5 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full font-medium shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-102"
             >
               {t('header.bus')}
             </Button>
@@ -335,7 +340,7 @@ export function Header() {
               size="md"
               fullWidth
               onClick={() => setMobileMenuOpen(false)}
-              className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 font-medium hover:scale-102"
+              className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-full transition-all duration-200 font-medium hover:scale-102"
             >
               {t('header.carRental')}
             </Button>
@@ -344,7 +349,7 @@ export function Header() {
               size="md"
               fullWidth
               onClick={() => setMobileMenuOpen(false)}
-              className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 font-medium hover:scale-102"
+                className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-full transition-all duration-200 font-medium hover:scale-102"
             >
               {t('header.ferry')}
             </Button>
@@ -370,7 +375,7 @@ export function Header() {
                     size="md"
                     fullWidth
                     icon={Settings}
-                    className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 hover:scale-102"
+                    className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-full transition-all duration-200 hover:scale-102"
                   >
                     <span className="font-medium">{t('header.profileSettings')}</span>
                   </Button>
@@ -383,7 +388,7 @@ export function Header() {
                       setMobileMenuOpen(false);
                       router.push('/tickets');
                     }}
-                    className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 hover:scale-102"
+                    className="justify-start text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-full transition-all duration-200 hover:scale-102"
                   >
                     <span className="font-medium">{t('header.myTickets')}</span>
                   </Button>
@@ -396,7 +401,7 @@ export function Header() {
                       handleLogout();
                       setMobileMenuOpen(false);
                     }}
-                    className="justify-start px-5 py-3.5 rounded-xl transition-all duration-200 hover:scale-102"
+                      className="justify-start px-5 py-3.5 rounded-full transition-all duration-200 hover:scale-102"
                   >
                     <span className="font-medium">{t('header.logout')}</span>
                   </Button>
@@ -405,14 +410,15 @@ export function Header() {
             ) : (
               <div className="border-t border-gray-100 pt-5 mt-5 space-y-3">
                 <Button
-                  variant="ghost"
+                  variant="outline"
                   size="md"
                   fullWidth
+                  icon={LogIn}
                   onClick={() => {
                     setMobileMenuOpen(false);
                     router.push('/login');
                   }}
-                  className="text-gray-700 hover:text-blue-600 hover:bg-blue-50/80 px-5 py-3.5 rounded-xl transition-all duration-200 text-center hover:scale-102"
+                  className="px-5 py-3.5 rounded-full transition-all duration-200 text-center hover:scale-102"
                 >
                   {t('header.login')}
                 </Button>
@@ -424,7 +430,7 @@ export function Header() {
                     setMobileMenuOpen(false);
                     router.push('/register');
                   }}
-                  className="px-5 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl transition-all duration-200 text-center hover:scale-102 shadow-lg hover:shadow-xl"
+                    className="px-5 py-3.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-full transition-all duration-200 text-center hover:scale-102 shadow-lg hover:shadow-xl"
                 >
                   {t('header.register')}
                 </Button>
@@ -434,41 +440,41 @@ export function Header() {
             {/* Mobile Language Selector */}
             <div className="border-t border-gray-100 pt-3 mt-3">
               <div className="px-1">
-                <div className="flex items-center justify-center mb-2">
+                <div className="flex items-center justify-between">
                   <span className="text-xs font-medium text-gray-500 flex items-center gap-1 bg-gray-50 px-2 py-0.5 rounded-full">
                     <Globe className="w-2.5 h-2.5 text-blue-500" />
-                    Select Language
+                    {t('header.selectLanguage')}
                   </span>
-                </div>
-                <div className="flex gap-1.5">
-                  <button
-                    onClick={() => {
-                      handleLanguageChange('tr');
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`flex items-center gap-1.5 px-2 py-1.5 text-xs rounded-lg transition-all duration-200 ${
-                      currentLanguage === 'tr' 
-                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md transform scale-105' 
-                        : 'text-gray-700 hover:bg-gray-50 hover:scale-102'
-                    }`}
-                  >
-                    <span className="text-sm">🇹🇷</span>
-                    <span className="font-medium">Türkçe</span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleLanguageChange('en');
-                      setMobileMenuOpen(false);
-                    }}
-                    className={`flex items-center gap-1.5 px-2 py-1.5 text-xs rounded-lg transition-all duration-200 ${
-                      currentLanguage === 'en' 
-                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md transform scale-105' 
-                        : 'text-gray-700 hover:bg-gray-50 hover:scale-102'
-                    }`}
-                  >
-                    <span className="text-sm">🇺🇸</span>
-                    <span className="font-medium">English</span>
-                  </button>
+                  <div className="flex gap-1.5">
+                    <button
+                      onClick={() => {
+                        handleLanguageChange('tr');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`flex items-center gap-1.5 px-2 py-1.5 text-xs rounded-lg transition-all duration-200 ${
+                        currentLanguage === 'tr' 
+                          ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md transform scale-105' 
+                          : 'text-gray-700 hover:bg-gray-50 hover:scale-102'
+                      }`}
+                    >
+                      <span className="text-sm">🇹🇷</span>
+                      <span className="font-medium">{t('header.turkish')}</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleLanguageChange('en');
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`flex items-center gap-1.5 px-2 py-1.5 text-xs rounded-lg transition-all duration-200 ${
+                        currentLanguage === 'en' 
+                          ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md transform scale-105' 
+                          : 'text-gray-700 hover:bg-gray-50 hover:scale-102'
+                      }`}
+                    >
+                      <span className="text-sm">🇺🇸</span>
+                      <span className="font-medium">{t('header.english')}</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

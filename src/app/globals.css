@@ -184,3 +184,9 @@ input[type="date"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.language-button-text {
+  font-size: .6rem;
+}
+.select-language-button {
+  font-size: .6rem;
+}

@@ -4,12 +4,13 @@ import { registerUser, type UserProfile, clearAuthError } from "@/store/slices/a
 import { Formik, Form, Field, ErrorMessage, type FieldProps } from "formik";
 import * as Yup from "yup";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useEffect } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { TextInput } from "@/components/ui/TextInput";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
+import { CalendarDays } from "lucide-react";
 // Register schema moved inside component to access translations
 
 type RegisterForm = Omit<UserProfile, "id"> & {
@@ -30,6 +31,7 @@ function RegisterInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { error } = useAppSelector((s) => s.auth);
+  const birthDateInputRef = useRef<HTMLInputElement>(null);
   
   // Register schema with translations
   const RegisterSchema = Yup.object({
@@ -53,7 +55,15 @@ function RegisterInner() {
       .matches(/^[1-9][0-9]{10}$/, "Geçerli bir TC kimlik numarası giriniz")
       .required(t('validation.required')),
     gender: Yup.mixed().oneOf(["male", "female"]).required(t('validation.required')),
-    birthDate: Yup.string().required(t('validation.required')),
+    birthDate: Yup.string()
+      .required(t('validation.required'))
+      .test('valid-date', 'Geçerli bir tarih giriniz', function(value) {
+        if (!value) return false;
+        const date = new Date(value);
+        const now = new Date();
+        const hundredYearsAgo = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
+        return date >= hundredYearsAgo && date <= now;
+      }),
   });
   
   const redirectUrl = searchParams.get('redirect') || '/';
@@ -258,8 +268,73 @@ function RegisterInner() {
             </div>
             
             <Field name="birthDate">
-              {({ field }: FieldProps) => (
-                <TextInput {...field} type="date" label={t('auth.register.birthDate')} />
+              {({ field, form }: FieldProps) => (
+                <div className="space-y-1">
+                  <label className="block text-xs text-gray-700 mb-1">{t('auth.register.birthDate')}</label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      placeholder="YYYY-MM-DD"
+                      pattern="\d{4}-\d{2}-\d{2}"
+                      value={field.value as string}
+                      onChange={(e) => {
+                        let value = e.target.value.replace(/[^\d-]/g, ''); // Sadece rakam ve tire
+                        
+                        // Otomatik tire ekleme
+                        if (value.length === 4 && !value.includes('-')) {
+                          value = value + '-';
+                        } else if (value.length === 7 && value.split('-').length === 2) {
+                          value = value + '-';
+                        }
+                        
+                        // Format kontrolü: YYYY-MM-DD
+                        if (value.length <= 10) {
+                          // Tarih sınırlaması kontrolü
+                          if (value.length >= 4) {
+                            const year = parseInt(value.substring(0, 4));
+                            const currentYear = new Date().getFullYear();
+                            const minYear = currentYear - 100;
+                            
+                            // 100 yıl öncesinden küçük yıl girişini engelle
+                            if (year < minYear || year > currentYear) {
+                              return; // Değeri güncelleme
+                            }
+                          }
+                          form.setFieldValue('birthDate', value);
+                        }
+                      }}
+                      onKeyPress={(e) => {
+                        // Sadece rakam ve tire girişine izin ver
+                        if (!/[\d-]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
+                          e.preventDefault();
+                        }
+                      }}
+                      className="w-full rounded-2xl bg-white border border-gray-300 px-4 py-3.5 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                    <button
+                      type="button"
+                      aria-label="Takvimi aç"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                      onClick={() => birthDateInputRef.current?.showPicker()}
+                    >
+                      <CalendarDays className="w-4 h-4" />
+                    </button>
+                    <input
+                      ref={birthDateInputRef}
+                      type="date"
+                      min={(() => {
+                        const hundredYearsAgo = new Date();
+                        hundredYearsAgo.setFullYear(hundredYearsAgo.getFullYear() - 100);
+                        return hundredYearsAgo.toISOString().split('T')[0];
+                      })()}
+                      max={new Date().toISOString().split('T')[0]}
+                      value={field.value as string}
+                      onChange={(e) => form.setFieldValue('birthDate', e.target.value)}
+                      className="absolute inset-0 opacity-0 pointer-events-none"
+                    />
+                  </div>
+                </div>
               )}
             </Field>
             <ErrorMessage name="birthDate" component="div" className="text-xs text-red-600 mt-1" />

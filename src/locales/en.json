@@ -16,7 +16,10 @@
     "myTickets": "My Tickets",
     "helpCenter": "Help Center",
     "logout": "Logout",
-    "loginRequired": "Login Required"
+    "loginRequired": "Login Required",
+    "selectLanguage": "Select Language",
+    "turkish": "Turkish",
+    "english": "English"
   },
   "search": {
     "from": "From",

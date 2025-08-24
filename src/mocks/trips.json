@@ -260,7 +260,7 @@
     "fromCity": "İzmir",
     "toCity": "İstanbul",
     "date": "2025-08-23",
-    "departureTime": "19:00",
+    "departureTime": "23:50",
     "arrivalTime": "02:30",
     "price": 410,
     "seats": [
@@ -292,7 +292,7 @@
     "fromCity": "Ankara",
     "toCity": "İstanbul",
     "date": "2025-08-23",
-    "departureTime": "15:00",
+    "departureTime": "23:50", 
     "arrivalTime": "19:30",
     "price": 460,
     "seats": [
@@ -323,8 +323,8 @@
     "id": "IST-ANK-2200",
     "fromCity": "İstanbul",
     "toCity": "Ankara",
-    "date": "2024-12-22",
-    "departureTime": "22:00",
+    "date": "2024-12-23",
+    "departureTime": "23:55",
     "arrivalTime": "02:30",
     "price": 470,
     "seats": [
