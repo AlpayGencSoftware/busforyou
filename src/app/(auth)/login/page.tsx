@@ -97,13 +97,13 @@ function LoginInner() {
               <ErrorMessage name="password" component="div" className="text-xs text-red-600 mt-1" />
             </div>
             <Checkbox label={t('auth.login.rememberMe')} defaultChecked />
-            <Button type="submit" variant="primary" size="md" fullWidth>
+            <Button type="submit" variant="primary" size="md" className="rounded-full" fullWidth>
               {t('auth.login.loginButton')}
             </Button>
           </Form>
         )}
       </Formik>
-      <div className="text-center mt-10 text-brand-700">
+      <div className="text-center mt-10 text-brand-700 text-sm font-semibold">
         <a href={redirectUrl !== '/' ? `/register?redirect=${encodeURIComponent(redirectUrl)}` : '/register'} className="underline">{t('auth.login.signUpLink')}</a>
       </div>
       </div>

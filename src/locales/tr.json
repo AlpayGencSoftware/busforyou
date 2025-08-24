@@ -47,6 +47,8 @@
     "viewTicket": "Biletlerinizi Görüntüleyin",
     "viewTicketMessage": "Biletlerinizi görüntülemek için giriş yapmanız gerekmektedir.",
     "viewTicketButton": "Giriş Yap",
+    "cancel": "İptal Et",
+    "download": "PDF İndir",
     "filters": {
       "all": "Tümü",
       "active": "Aktif",
@@ -80,7 +82,8 @@
     "heating": "Isıtma",
     "wifi": "WiFi",
     "entertainment": "Eğlence",
-    "refreshments": "İkramlar"
+    "refreshments": "İkramlar",
+    "noTripsFoundMessage": "Seçtiğiniz kriterlere uygun sefer bulunmamaktadır. Lütfen farklı tarih veya güzergah deneyin."
   },
   "trip": {
     "tripDetails": "Sefer Detayları",
@@ -100,7 +103,10 @@
     "loginRequiredForBooking": "Rezervasyon için giriş yapmanız gerekiyor.",
     "maxSeatsWarning": "En fazla 5 koltuk seçebilirsiniz!",
     "genderRuleWarning": "Çiftli koltuklarda karşı cinsten yolcunun yanına oturulamaz!",
-    "understood": "Anladım"
+    "understood": "Anladım",
+    "processingTitle": "Ödeme İşleniyor",
+    "processing": "Lütfen bekleyiniz...",
+    "backToHome": "Ana Sayfaya Dön"
   },
   "payment": {
     "title": "Ödeme",
@@ -123,7 +129,25 @@
     "cardNumber": "Kart Numarası",
     "expiryDate": "Son Kullanma Tarihi",
     "cvv": "CVV",
-    "cardHolder": "Kart Sahibi"
+    "cardHolder": "Kart Sahibi",
+    "cardHolderPlaceholder": "Kart Sahibi Adı",
+    "expiryDatePlaceholder": "MM/YY",
+    "cvvPlaceholder": "CVV",
+    "securePayment": "Güvenli Ödeme",
+    "securePaymentMessage": "Tüm ödemeleriniz SSL sertifikası ile korunmaktadır. Kart bilgileriniz saklanmaz.",
+    "paymentSummary": "Ödeme Özeti",
+    "selectedSeats": "Seçili Koltuklar",
+    "seatCount": "Koltuk Sayısı",
+    "cardInfo": "Kart Bilgileri",
+    "pay": "Öde",
+    "successTitle": "Ödeme Başarılı",
+    "successMessage": "Biletiniz başarıyla satın alındı. E-posta adresinize bilet detayları gönderildi.",
+    "paymentDetails": "Ödeme Detayları",
+    "totalPrice": "Toplam Tutar",
+    "seatNumber": "Koltuk No",
+    "processingTitle": "Ödeme İşleniyor",
+   
+    "backToHome": "Ana Sayfaya Dön"
   },
   "footer": {
     "company": "Şirket",

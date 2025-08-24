@@ -104,14 +104,11 @@ export default function TicketsPage() {
       gender: currentUser.gender,
       birthDate: currentUser.birthDate
     }
-  })) : []);
-  
-
-
+  })) : []); 
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center" style={{ background: "var(--bg-gradient)" }}>
         <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6 text-center">
           <div className="text-gray-400 mb-4">
             <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -123,7 +120,7 @@ export default function TicketsPage() {
           <Button
             onClick={() => router.push('/login')}
             variant="primary"
-            className="w-full"
+            className="w-full rounded-full"
           >
            {t('tickets.viewTicketButton')}
           </Button>
@@ -296,8 +293,8 @@ export default function TicketsPage() {
                 Bu bilet <strong style="color: #1f2937;">Bus4You</strong> tarafından elektronik olarak oluşturulmuştur.<br/>
                 Seyahat sırasında yanınızda bulundurmanız gerekmektedir.
               </p>
-              <div style="margin-top: 10px; padding: 8px 16px; background: linear-gradient(90deg, #FFD800, #FFA000); border-radius: 20px; display: inline-block;">
-                <span style="color: white; font-size: 12px; font-weight: 600;">🎉 İyi Yolculuklar!</span>
+              <div>
+                <span style="color: black; font-size: 16px; font-weight: bold;">🎉 İyi Yolculuklar Dileriz!</span>
               </div>
             </div>
           </div>
@@ -406,12 +403,14 @@ export default function TicketsPage() {
           <p className="text-gray-600 mb-6">
             {t('tickets.loginRequiredMessage')}
           </p>
-          <button 
+          <Button
             onClick={() => router.push('/login')}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white rounded-xl py-3 font-medium transition-colors"
+            variant="primary"
+            size="md"
+            className="rounded-full"
           >
             {t('tickets.loginButton')}
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -511,36 +510,60 @@ export default function TicketsPage() {
 
             {/* Filtre Butonları */}
             <div className="flex items-center gap-2 overflow-x-auto sm:overflow-x-visible">
-              <button
+              <Button
                 onClick={() => setFilter('all')}
-                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                size="sm"
+                className={`px-2 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap shadow-none ${
                   filter === 'all' 
                     ? 'bg-blue-600 text-white' 
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {t('tickets.filters.all')} ({tickets.length})
-              </button>
-              <button
+                {t('tickets.filters.all')} 
+                <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${
+                  filter === 'all' 
+                    ? 'bg-blue-700 text-white' 
+                    : 'bg-gray-200 text-gray-700'
+                }`}>
+                  {tickets.length}
+                </span>
+              </Button>
+              <Button
                 onClick={() => setFilter('active')}
-                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                size="sm"
+                className={`px-2 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap shadow-none ${
                   filter === 'active' 
                     ? 'bg-green-600 text-white' 
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {t('tickets.filters.active')} ({tickets.filter(t => t.status === 'active').length})
-              </button>
-              <button
+                {t('tickets.filters.active')} 
+                <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${
+                  filter === 'active' 
+                    ? 'bg-green-700 text-white' 
+                    : 'bg-gray-200 text-gray-700'
+                }`}>
+                  {tickets.filter(t => t.status === 'active').length}
+                </span>
+              </Button>
+              <Button
                 onClick={() => setFilter('used')}
-                className={`px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-medium transition-colors whitespace-nowrap ${
+                size="sm"
+                className={`px-2 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-colors whitespace-nowrap shadow-none ${
                   filter === 'used' 
                     ? 'bg-gray-600 text-white' 
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
               >
-                {t('tickets.filters.used')} ({tickets.filter(t => t.status === 'used').length})
-              </button>
+                {t('tickets.filters.used')} 
+                <span className={`ml-1 px-1.5 py-0.5 rounded-full text-xs font-semibold ${
+                  filter === 'used' 
+                    ? 'bg-gray-700 text-white' 
+                    : 'bg-gray-200 text-gray-700'
+                }`}>
+                  {tickets.filter(t => t.status === 'used').length}
+                </span>
+              </Button>
             </div>
           </div>
         </div>
@@ -748,8 +771,9 @@ export default function TicketsPage() {
                                 size="sm"
                                 icon={Download}
                                 fullWidth
+                                className="rounded-full"
                               >
-                                PDF İndir
+                                {t('tickets.download')}
                               </Button>
                               
                               {ticket.status === 'active' && (
@@ -758,9 +782,11 @@ export default function TicketsPage() {
                                   size="sm"
                                   icon={X}
                                   fullWidth
+                                  className="rounded-full"
                                 >
-                                  İptal Et
+                                   {t('tickets.cancel')}
                                 </Button>
+
                               )}
                             </div>
                           </div>

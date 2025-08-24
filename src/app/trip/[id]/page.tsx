@@ -154,7 +154,7 @@ const TripDetailsPage = () => {
             customClass: {
               popup: 'rounded-2xl shadow-2xl border-0',
               title: 'text-xl font-bold text-gray-800 mb-4',
-              confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-medium transition-colors shadow-lg'
+              confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-colors shadow-lg'
             }
           });
           return;
@@ -732,7 +732,7 @@ const TripDetailsPage = () => {
                   size="md"
                   icon={CreditCard}
                   fullWidth={false}
-                  className="w-full lg:w-auto"
+                  className="w-full lg:w-auto rounded-full"
                 >
                   {t('trip.continue')}
                 </Button>

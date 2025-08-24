@@ -10,7 +10,7 @@ import { TextInput } from "@/components/ui/TextInput";
 import { PasswordInput } from "@/components/ui/PasswordInput";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, ChevronDown } from "lucide-react";
 // Register schema moved inside component to access translations
 
 type RegisterForm = Omit<UserProfile, "id"> & {
@@ -57,12 +57,28 @@ function RegisterInner() {
     gender: Yup.mixed().oneOf(["male", "female"]).required(t('validation.required')),
     birthDate: Yup.string()
       .required(t('validation.required'))
-      .test('valid-date', 'Geçerli bir tarih giriniz', function(value) {
+      .test('valid-date', 'Geçerli bir tarih giriniz (GG/AA/YYYY)', function(value) {
         if (!value) return false;
-        const date = new Date(value);
+        
+        // DD/MM/YYYY formatını kontrol et
+        const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+        const match = value.match(dateRegex);
+        
+        if (!match) return false;
+        
+        const day = parseInt(match[1]);
+        const month = parseInt(match[2]) - 1; // JavaScript'te ay 0-11 arası
+        const year = parseInt(match[3]);
+        
+        // Geçerli tarih kontrolü
+        const date = new Date(year, month, day);
         const now = new Date();
         const hundredYearsAgo = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
-        return date >= hundredYearsAgo && date <= now;
+        
+        return date >= hundredYearsAgo && date <= now && 
+               date.getDate() === day && 
+               date.getMonth() === month && 
+               date.getFullYear() === year; // Geçerli tarih kontrolü
       }),
   });
   
@@ -260,10 +276,15 @@ function RegisterInner() {
             
             <div>
               <label className="block text-xs text-gray-700 mb-1">{t('auth.register.gender')}</label>
-              <Field as="select" name="gender" className="w-full bg-white rounded-2xl border border-gray-300 px-4 py-3 text-sm">
-                <option value="male">{t('auth.register.male')}</option>
-                <option value="female">{t('auth.register.female')}</option>
-              </Field>
+              <div className="relative">
+                <Field as="select" name="gender" className="w-full bg-white rounded-2xl border border-gray-300 px-4 py-3 pr-10 text-sm appearance-none">
+                  <option value="male">{t('auth.register.male')}</option>
+                  <option value="female">{t('auth.register.female')}</option>
+                </Field>
+                <div className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                  <ChevronDown className="w-4 h-4 text-gray-500" />
+                </div>
+              </div>
               <ErrorMessage name="gender" component="div" className="text-xs text-red-600 mt-1" />
             </div>
             
@@ -275,38 +296,43 @@ function RegisterInner() {
                     <input
                       type="text"
                       inputMode="numeric"
-                      placeholder="YYYY-MM-DD"
-                      pattern="\d{4}-\d{2}-\d{2}"
+                      placeholder="GG/AA/YYYY"
+                      pattern="\d{2}/\d{2}/\d{4}"
                       value={field.value as string}
                       onChange={(e) => {
-                        let value = e.target.value.replace(/[^\d-]/g, ''); // Sadece rakam ve tire
+                        let value = e.target.value.replace(/[^\d/]/g, ''); // Sadece rakam ve slash
                         
-                        // Otomatik tire ekleme
-                        if (value.length === 4 && !value.includes('-')) {
-                          value = value + '-';
-                        } else if (value.length === 7 && value.split('-').length === 2) {
-                          value = value + '-';
+                        // Otomatik slash ekleme
+                        if (value.length === 2 && !value.includes('/')) {
+                          value = value + '/';
+                        } else if (value.length === 5 && value.split('/').length === 2) {
+                          value = value + '/';
                         }
                         
-                        // Format kontrolü: YYYY-MM-DD
+                        // Format kontrolü: DD/MM/YYYY
                         if (value.length <= 10) {
-                          // Tarih sınırlaması kontrolü
-                          if (value.length >= 4) {
-                            const year = parseInt(value.substring(0, 4));
-                            const currentYear = new Date().getFullYear();
-                            const minYear = currentYear - 100;
-                            
-                            // 100 yıl öncesinden küçük yıl girişini engelle
-                            if (year < minYear || year > currentYear) {
-                              return; // Değeri güncelleme
+                          // Tarih sınırlaması kontrolü - sadece tam tarih girildiyse kontrol et
+                          if (value.length === 10) {
+                            const parts = value.split('/');
+                            if (parts.length === 3) {
+                              const day = parseInt(parts[0]);
+                              const month = parseInt(parts[1]);
+                              const year = parseInt(parts[2]);
+                              const currentYear = new Date().getFullYear();
+                              const minYear = currentYear - 100;
+                              
+                              // Geçerli tarih kontrolü - sadece tam tarih girildiyse
+                              if (day < 1 || day > 31 || month < 1 || month > 12 || year < minYear || year > currentYear) {
+                                return; // Değeri güncelleme
+                              }
                             }
                           }
                           form.setFieldValue('birthDate', value);
                         }
                       }}
                       onKeyPress={(e) => {
-                        // Sadece rakam ve tire girişine izin ver
-                        if (!/[\d-]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
+                        // Sadece rakam ve slash girişine izin ver
+                        if (!/[\d/]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
                           e.preventDefault();
                         }
                       }}
@@ -329,8 +355,33 @@ function RegisterInner() {
                         return hundredYearsAgo.toISOString().split('T')[0];
                       })()}
                       max={new Date().toISOString().split('T')[0]}
-                      value={field.value as string}
-                      onChange={(e) => form.setFieldValue('birthDate', e.target.value)}
+                      value={(() => {
+                        // DD/MM/YYYY formatını YYYY-MM-DD'ye çevir
+                        const ddmmyyyy = field.value as string;
+                        if (ddmmyyyy && ddmmyyyy.includes('/')) {
+                          const parts = ddmmyyyy.split('/');
+                          if (parts.length === 3) {
+                            const day = parts[0].padStart(2, '0');
+                            const month = parts[1].padStart(2, '0');
+                            const year = parts[2];
+                            return `${year}-${month}-${day}`;
+                          }
+                        }
+                        return '';
+                      })()}
+                      onChange={(e) => {
+                        // YYYY-MM-DD formatını DD/MM/YYYY'ye çevir
+                        const yyyymmdd = e.target.value;
+                        if (yyyymmdd) {
+                          const parts = yyyymmdd.split('-');
+                          if (parts.length === 3) {
+                            const day = parseInt(parts[2]).toString();
+                            const month = parseInt(parts[1]).toString();
+                            const year = parts[0];
+                            form.setFieldValue('birthDate', `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`);
+                          }
+                        }
+                      }}
                       className="absolute inset-0 opacity-0 pointer-events-none"
                     />
                   </div>
@@ -346,12 +397,13 @@ function RegisterInner() {
               variant="primary"
               size="md"
               fullWidth
+              className="rounded-full"
               disabled={!canSubmit}
             >
               {t('auth.register.registerButton')}
             </Button>
             <div className="text-gray-700 text-sm text-center mt-6">
-              {t('auth.register.hasAccount')} <a href={redirectUrl !== '/' ? `/login?redirect=${encodeURIComponent(redirectUrl)}` : '/login'} className="text-brand-700 underline">{t('auth.register.loginLink')}</a>
+              {t('auth.register.hasAccount')} <a href={redirectUrl !== '/' ? `/login?redirect=${encodeURIComponent(redirectUrl)}` : '/login'} className="text-brand-700 underline font-semibold">{t('auth.register.loginLink')}</a>
             </div>
           </Form>
         );

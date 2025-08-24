@@ -47,6 +47,8 @@
     "viewTicket": "View Tickets",
     "viewTicketMessage": "You need to log in to view your tickets.",
     "viewTicketButton": "Login",
+    "cancel": "Cancel",
+    "download": "Download PDF", 
     "filters": {
       "all": "All",
       "active": "Active",
@@ -80,7 +82,8 @@
     "heating": "Heating",
     "wifi": "WiFi",
     "entertainment": "Entertainment",
-    "refreshments": "Refreshments"
+    "refreshments": "Refreshments",
+    "noTripsFoundMessage": "No trips match your selected criteria. Please try different dates or routes."
   },
   "trip": {
     "tripDetails": "Trip Details",
@@ -100,7 +103,11 @@
     "loginRequiredForBooking": "You need to log in to make a reservation.",
     "maxSeatsWarning": "You can select maximum 5 seats!",
     "genderRuleWarning": "Cannot sit next to opposite gender in double seats!",
-    "understood": "Understood"
+    "understood": "Understood",
+    "processingTitle": "Processing Payment",
+    "processing": "Please wait...",
+    "backToHome": "Back to Home",
+    "successTitle": "Payment Successful"
   },
   "payment": {
     "title": "Payment",
@@ -123,7 +130,22 @@
     "cardNumber": "Card Number",
     "expiryDate": "Expiry Date",
     "cvv": "CVV",
-    "cardHolder": "Card Holder"
+    "cardHolder": "Card Holder",
+    "cardHolderPlaceholder": "Card Holder Name",
+    "expiryDatePlaceholder": "MM/YY",
+    "cvvPlaceholder": "CVV",
+    "securePayment": "Secure Payment",
+    "securePaymentMessage": "All payments are protected by SSL certificates. Your card information is not stored.",
+    "paymentSummary": "Payment Summary",
+    "selectedSeats": "Selected Seats",
+    "seatCount": "Seat Count",
+    "cardInfo": "Card Information",
+    "pay": "Pay",
+    "successTitle": "Payment Successful",
+    "successMessage": "Your ticket has been purchased successfully. The ticket details have been sent to your email address.",
+    "paymentDetails": "Payment Details",
+    "totalPrice": "Total Price",
+    "seatNumber": "Seat Number"
   },
   "footer": {
     "company": "Company",
